@@ -1,0 +1,51 @@
+{
+  "name": "Python GIS + PostGIS Development",
+
+  "build": {
+    "dockerfile": "Dockerfile"
+  },
+
+  "features": {
+    "ghcr.io/devcontainers/features/docker-in-docker:2": {}
+  },
+
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "ms-python.python",
+        "ms-python.pylance",
+        "ms-toolsai.jupyter",
+        "ms-python.black-formatter",
+        "charliermarsh.ruff",
+        "ms-vscode.vscode-json",
+        "redhat.vscode-yaml",
+        "ms-azuretools.vscode-docker",
+        "ckolkman.vscode-postgres"
+      ],
+      "settings": {
+        "python.defaultInterpreterPath": "${containerWorkspaceFolder}/.venv/bin/python",
+        "jupyter.askForKernelRestart": false,
+        "files.associations": {
+          "*.geojson": "json"
+        }
+      }
+    }
+  },
+
+  "forwardPorts": [8888, 5432],
+
+  "portsAttributes": {
+    "8888": {
+      "label": "Jupyter Lab",
+      "onAutoForward": "notify"
+    },
+    "5432": {
+      "label": "PostgreSQL",
+      "onAutoForward": "notify"
+    }
+  },
+
+  "postCreateCommand": "pip install uv && uv sync && .venv/bin/python -m ipykernel install --user --name python-gis-postgis-development --display-name \"python-gis-postgis-development (.venv)\"",
+
+  "remoteUser": "vscode"
+}
